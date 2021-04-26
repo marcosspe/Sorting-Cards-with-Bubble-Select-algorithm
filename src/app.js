@@ -6,21 +6,7 @@ import "./assets/img/rigo-baby.jpg";
 import "./assets/img/4geeks.ico";
 
 function generateRandomNumber() {
-  var number = [
-    "A",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "J",
-    "Q",
-    "K"
-  ];
+  var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
   let indexNumber = Math.floor(Math.random() * number.length);
   return number[indexNumber];
 }
@@ -39,6 +25,10 @@ function dibujarCarta(palo, numero) {
 
   let contenido = document.createElement("span");
   contenido.classList.add("number", palo);
+  if (numero == 1) numero = "A";
+  if (numero == 11) numero = "J";
+  if (numero == 12) numero = "Q";
+  if (numero == 13) numero = "K";
   contenido.innerHTML = numero;
 
   carta.appendChild(contenido);
@@ -67,21 +57,20 @@ function generadorDeCartas() {
 
     let cartaGenerada = dibujarCarta(palo, numero);
     newContainerCartas.appendChild(cartaGenerada);
-
-    listaCartas.push(cartaGenerada);
+    let carta = [numero, palo];
+    listaCartas.push(carta);
     console.log(listaCartas);
   }
 }
 
 const bubbleSort = arr => {
-  console.log(arr);
   let wall = arr.length - 1; //we start the wall at the end of the array
   while (wall > 0) {
     let index = 0;
     while (index < wall) {
       //compare the adjacent positions, if the right one is bigger, we have to swap
 
-      if (arr[index] > arr[index + 1]) {
+      if (arr[index][0] > arr[index + 1][0]) {
         let aux = arr[index];
         arr[index] = arr[index + 1];
         arr[index + 1] = aux;
@@ -90,7 +79,22 @@ const bubbleSort = arr => {
     }
     wall--; //decrease the wall for optimization
   }
+  console.log("Ordenado", arr);
+  return arr;
+};
 
+const selectSort = arr => {
+  let min = 0;
+  while (min < arr.length - 1) {
+    for (let i = min + 1; i < arr.length - 1; i++) {
+      if (arr[min][0] > arr[i][0]) {
+        let aux = arr[min];
+        arr[min] = arr[i];
+        arr[i] = aux;
+      }
+    }
+    min++;
+  }
   return arr;
 };
 
@@ -100,6 +104,36 @@ function limpiarInput() {
 
 function ordenar() {
   let cartasOrdenadas = bubbleSort(listaCartas);
+
+  let newContainerCartas = document.createElement("div");
+  newContainerCartas.classList.add("container-card");
+  let padre = document.querySelector(".padre");
+  padre.appendChild(newContainerCartas);
+
+  for (var i = 0; i < cartasOrdenadas.length; i++) {
+    let palo = cartasOrdenadas[i][1];
+    let numero = cartasOrdenadas[i][0];
+
+    let cartaGenerada = dibujarCarta(palo, numero);
+    newContainerCartas.appendChild(cartaGenerada);
+  }
+}
+
+function ordenar2() {
+  let cartasOrdenadas2 = bubbleSort(listaCartas);
+
+  let newContainerCartas = document.createElement("div");
+  newContainerCartas.classList.add("container-card");
+  let padre = document.querySelector(".padre");
+  padre.appendChild(newContainerCartas);
+
+  for (var i = 0; i < cartasOrdenadas2.length; i++) {
+    let palo = cartasOrdenadas2[i][1];
+    let numero = cartasOrdenadas2[i][0];
+
+    let cartaGenerada = dibujarCarta(palo, numero);
+    newContainerCartas.appendChild(cartaGenerada);
+  }
 }
 
 window.onload = function() {
@@ -118,4 +152,7 @@ window.onload = function() {
 
   let btnOrdenar = document.getElementById("ordenar");
   btnOrdenar.addEventListener("click", ordenar);
+
+  let btnOrdenar2 = document.getElementById("ordenar2");
+  btnOrdenar2.addEventListener("click", ordenar2);
 };
