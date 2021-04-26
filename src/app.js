@@ -86,7 +86,7 @@ const bubbleSort = arr => {
 const selectSort = arr => {
   let min = 0;
   while (min < arr.length - 1) {
-    for (let i = min + 1; i < arr.length - 1; i++) {
+    for (let i = min + 1; i < arr.length; i++) {
       if (arr[min][0] > arr[i][0]) {
         let aux = arr[min];
         arr[min] = arr[i];
@@ -95,6 +95,7 @@ const selectSort = arr => {
     }
     min++;
   }
+  console.log("Ordenado2", arr);
   return arr;
 };
 
@@ -120,7 +121,7 @@ function ordenar() {
 }
 
 function ordenar2() {
-  let cartasOrdenadas2 = bubbleSort(listaCartas);
+  let cartasOrdenadas2 = selectSort(listaCartas);
 
   let newContainerCartas = document.createElement("div");
   newContainerCartas.classList.add("container-card");
@@ -131,8 +132,8 @@ function ordenar2() {
     let palo = cartasOrdenadas2[i][1];
     let numero = cartasOrdenadas2[i][0];
 
-    let cartaGenerada = dibujarCarta(palo, numero);
-    newContainerCartas.appendChild(cartaGenerada);
+    let newcartaGenerada = dibujarCarta(palo, numero);
+    newContainerCartas.appendChild(newcartaGenerada);
   }
 }
 
